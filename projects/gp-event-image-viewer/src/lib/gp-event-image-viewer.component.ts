@@ -24,16 +24,17 @@ import {
   Input,
 } from '@angular/core';
 import {
-  MatStepper,
   MatDialog,
   MAT_DIALOG_DATA,
   MatDialogRef,
-} from '@angular/material';
+} from '@angular/material/dialog';
 import { GpEventImageViewerService } from './gp-event-image-viewer.service';
 import { EventService, Realtime } from '@c8y/client';
 import { DomSanitizer } from '@angular/platform-browser';
 import * as DefaultImage from './gp-default-image';
 import { CarouselImageViewer } from './carousel-image-viewer';
+import { ElementArrayFinder } from 'protractor';
+
 @Component({
   selector: 'lib-gp-event-image-viewer',
   templateUrl: './gp-event-image-viewer.component.html',
@@ -55,8 +56,8 @@ export class GpEventImageViewerComponent implements OnInit {
   fromDate = '';
   toDate = '';
   imageMap = {};
-  @ViewChild('stepper', {static: false}) stepper: MatStepper;
-
+  isCollapsed1 = false;
+  isAnimated:boolean=false;
   constructor(
     public dialog: MatDialog,
     public events: EventService,
@@ -172,33 +173,46 @@ export class GpEventImageViewerComponent implements OnInit {
 
   // fetches event list from event servcice
   async fetchEvents() {
+        const eventFilter = {
+      source: this.config.device.id,
+      pageSize : 2000,
+      type: this.config.eventType,
+     };
         // tslint:disable-next-line: deprecation
-        this.events.listBySource$(
-      this.config.device.id,
-        { pageSize: 2000,
-          type: this.config.eventType },
-        {
-          hot: true,
-          realtime: true,
-        }
-      )
-      .subscribe((data) => {
+       await this.events.list(eventFilter)
+      .then((data) => {
         if (this.realtimeState) {
-          this.evantData = [...data];
-          this.evantData.sort((a, b): number => {
-            if ( a.creationTime !== undefined && b.creationTime !== undefined) {
-              return a.creationTime > b.creationTime
-              ? -1
-              : a.creationTime < b.creationTime
-              ? 1
-              : 0;
-            }
-            return 0;
-          });
-          this.displayData = this.evantData;
-          setTimeout(() => this.loadImage(), 2000);
+          this.evantData = data.data;
+          if (this.evantData.length > 0) {
+            this.evantData.sort((a, b): number => {
+              if ( a.creationTime !== undefined && b.creationTime !== undefined) {
+                return a.creationTime > b.creationTime
+                ? -1
+                : a.creationTime < b.creationTime
+                ? 1
+                : 0;
+              }
+              return 0;
+            });
+            this.displayData = this.evantData;
+            this.displayData.forEach(element => {
+              element.isCollapsed1 = true;
+            })
+            setTimeout(() => this.loadImage(), 2000);
+          }
         }
       });
+  }
+  collapseLogic(eventID) {
+    this.displayData.forEach(element => {
+      if (element.id === eventID) {
+        element.isCollapsed1 = !element.isCollapsed1;
+      }
+      else
+      {
+        element.isCollapsed1 = true;
+      }
+    })
   }
   toggle() {
     this.realtimeState = !this.realtimeState;
