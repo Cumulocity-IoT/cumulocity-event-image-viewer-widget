@@ -19,8 +19,7 @@ import { NgModule } from '@angular/core';
 import { HOOK_COMPONENTS, CoreModule } from '@c8y/ngx-components';
 import { GpEventImageViewerComponent, ImageViewerDialog } from './gp-event-image-viewer.component';
 import { GpEventImageViewerConfigComponent } from './gp-event-image-viewer.config';
-import {MatStepperModule, MatDialogModule } from '@angular/material';
-
+import { MatDialogModule } from '@angular/material/dialog';
 import {MatIconModule} from '@angular/material/icon';
 import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -28,14 +27,15 @@ import { GpEventImageViewerService } from './gp-event-image-viewer.service';
 import { CarouselModule } from 'ngx-bootstrap/carousel';
 import { CarouselImageViewer } from './carousel-image-viewer';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+import{ CollapseModule } from 'ngx-bootstrap/collapse';
 @NgModule({
   declarations: [GpEventImageViewerComponent, GpEventImageViewerConfigComponent, CarouselImageViewer, ImageViewerDialog],
   imports: [
     CoreModule,
     ReactiveFormsModule,
-    MatStepperModule,
     MatIconModule,
     MatDialogModule,
+    CollapseModule.forRoot(),
     HttpClientModule,
     CarouselModule.forRoot(),
     BsDatepickerModule.forRoot()
