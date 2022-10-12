@@ -1,0 +1,92 @@
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
+
+  <div style="height: 40px;">
+    <div style ="float: right; margin-right: 10px;">
+      <button type="button" class="btn btn-link c8y-realtime" title="Toggle realtime" (click)="toggle()" >
+        <span [ngClass]="realtimeState?'c8y-pulse active' : 'c8y-pulse inactive'" ></span>
+        <span >Realtime</span>
+      </button>
+       <button type="button" class="btn btn-clean btn-icon"  (click)="setSlideShow()"><i c8yIcon="slideshare"></i></button>
+       <button type="button" class="btn btn-clean btn-icon" style="color:#1776BF;"  (click)="refresh()"><i c8yIcon="refresh"></i></button>
+      </div>
+  </div>
+  <div style="margin-left: 15px;">
+    <div class="dateChooserStyling form-group datepicker">
+      <input
+        class="form-control"
+        placeholder="From"
+        [bsConfig]="{ customTodayClass: 'today' }"
+        (ngModelChange)="dateChanged('from',$event)" 
+        [(ngModel)]="fromDate"
+        title="From Date"
+        bsDatepicker
+      />
+    </div>
+    <div class="dateChooserStyling form-group datepicker">
+      <input
+        class="form-control"
+        placeholder="TO"
+        [bsConfig]="{ customTodayClass: 'today' }"
+        (ngModelChange)="dateChanged('to',$event)" 
+        [(ngModel)]="toDate"
+        title="To Date"
+        bsDatepicker
+      />
+    </div>
+    <button type="button" title="Filter date range" class="btn btn-default " (click)="filter()">
+      <i c8y-icon="filter" class="fa fw fa-filter"></i>
+    </button>
+  
+  </div>
+    
+ <div style="margin-left: 70px;" >
+  <mat-vertical-stepper #stepper (selectionChange)="stepperselectected($event)" [selectedIndex]="selectedIndex" >
+    <ng-template matStepperIcon="edit">
+      <mat-icon></mat-icon>
+    </ng-template>
+    
+    <mat-step  *ngFor ="let event of displayData">    
+       <ng-template matStepLabel>    <label class="label-time">{{event.creationTime | date:'d MMMM \n yyyy HH:mm'}}</label>    {{event.text}} </ng-template>
+    
+        <div class="details-div ">
+          <label class="heading-label">DETAILS</label>
+
+          <div class="container-imageviewer">
+            <div class="child"> 
+           
+              <dl>
+                <dt>Time</dt>
+                <dd>{{event.time | date:'d MMMM yyyy HH:mm'}}</dd>
+              </dl>
+              <dl>
+                <dt>Classification </dt>
+                <dd>{{event.Classification}}</dd>
+              </dl>
+              <dl>
+                <dt>Type </dt>
+                <dd>{{event.type}}</dd>
+              </dl>
+              <dl>
+                <dt>Severity</dt>
+                <dd>{{event.Severity}}</dd>
+              </dl>
+              <dl>
+                <dt>Device Name</dt>
+                <dd>{{event.source.name}}</dd>
+              </dl>
+            </div>
+            <div class="child">
+              <img [src]="_DomSanitizationService.bypassSecurityTrustUrl(this.url)" (error)="errorInloading($event)" class="stepper-img" (click)="openDialog(event.Image)"  matTooltip="Click to zoom it">
+            </div>
+          </div>
+          
+        </div>   
+      </mat-step>
+      
+  </mat-vertical-stepper>
+ </div>
+      
+<br>
+
+ 

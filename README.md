@@ -246,3 +246,4 @@ For more information you can Ask a Question in the [TECHcommunity Forums](https:
   
   
 You can find additional information in the [Software AG TECHcommunity](https://tech.forums.softwareag.com/tag/Cumulocity-IoT).
+# cumuloity-event-image-viewer-widget
