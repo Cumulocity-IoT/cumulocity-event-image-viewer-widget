@@ -3,6 +3,8 @@
 
 This is an Angular widget designed to display the events that are created whenever the image is captured by the camera device which in turn triggers the webm.io workflow and the captured image which is stored in AWS S3 or any other storage medium is displayed in the widget. The image is classified good or bad based on AI Predictive analytics. 
 
+### ⚠️ This project is no longer under development. Please use [cumulocity-event-image-viewer-widget-plugin](https://github.com/SoftwareAG/cumulocity-event-image-viewer-widget-plugin) for Application Builder >=2.x.x and Cumulocity >=1016.x.x⚠️
+
 ### Please choose Event Image Viewer Widget release based on Cumulocity/Application builder version:
 
 |APPLICATION BUILDER | CUMULOCITY | EVENT IMAGE VIEWER WIDGET |
